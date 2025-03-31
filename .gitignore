@@ -22,7 +22,6 @@ wheels/
 MANIFEST
 .python-version
 venv/
-env/
 .env
 
 # Логи
@@ -33,6 +32,10 @@ log/
 # База данных
 *.sqlite3
 *.db
+# chat_summarizer.db # Или конкретное имя
+
+# Собранные данные
+collected_data/
 
 # Docker
 .docker/
@@ -59,13 +62,11 @@ htmlcov/
 .tox/
 .nox/
 .coverage.*
-.cache
 nosetests.xml
 coverage.xml
 *.cover
 *.py,cover
 .hypothesis/
-.pytest_cache/
 cover/
 
 # Специфичные для проекта
@@ -73,16 +74,7 @@ cover/
 .env.*
 !.env.example
 
-# Мониторинг
-prometheus/data/
-grafana/data/
-
-# Миграции (опционально, если не хотите хранить миграции в репозитории)
-# migrations/versions/*.py
-# !migrations/versions/__init__.py
-
 # Временные файлы
 *.tmp
 *.temp
-*.swp
 *~ 

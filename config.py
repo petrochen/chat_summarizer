@@ -14,12 +14,6 @@ CHANNEL_ID = os.getenv("CHANNEL_ID", "@your_summary_channel")
 # Время, когда будет создаваться ежедневный саммари (в формате UTC)
 SUMMARY_TIME = os.getenv("SUMMARY_TIME", "18:00")
 
-# Путь к базе данных SQLite
-DB_PATH = os.getenv("DB_PATH", "chat_summarizer.db")
-
-# URI для подключения к базе данных
-DATABASE_URI = f"sqlite:///{DB_PATH}"
-
 # Минимальное количество сообщений для создания саммари
 MIN_MESSAGES = int(os.getenv("MIN_MESSAGES", "5"))
 
