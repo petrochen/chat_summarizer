@@ -1,0 +1,20 @@
+services:
+  bot:
+    build:
+      context: .
+    container_name: chat_summarizer_bot
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      - LOG_LEVEL=${LOG_LEVEL:-INFO}
+    volumes:
+      - ./logs:/app/logs
+      - ./data:/app/data
+
+volumes:
+  postgres_data:
+
+networks:
+  chat_summarizer_network:
+    driver: bridge

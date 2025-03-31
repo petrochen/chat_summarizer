@@ -1,0 +1,88 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+.python-version
+venv/
+env/
+.env
+
+# Логи
+logs/
+*.log
+log/
+
+# База данных
+*.sqlite3
+*.db
+
+# Docker
+.docker/
+docker-compose.override.yml
+
+# Резервные копии
+backups/
+*.bak
+*.backup
+*.tar.gz
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Кэш и временные файлы
+.cache/
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.nox/
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# Специфичные для проекта
+*.env
+.env.*
+!.env.example
+
+# Мониторинг
+prometheus/data/
+grafana/data/
+
+# Миграции (опционально, если не хотите хранить миграции в репозитории)
+# migrations/versions/*.py
+# !migrations/versions/__init__.py
+
+# Временные файлы
+*.tmp
+*.temp
+*.swp
+*~ 
