@@ -11,10 +11,8 @@ services:
     volumes:
       - ./logs:/app/logs
       - ./data:/app/data
-
-volumes:
-  postgres_data:
+      - ./chat_summarizer.db:/app/chat_summarizer.db
 
 networks:
-  chat_summarizer_network:
-    driver: bridge
+  default:
+    name: chat_summarizer_network
