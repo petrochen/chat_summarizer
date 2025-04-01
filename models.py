@@ -6,12 +6,12 @@ from sqlalchemy.orm import relationship, Mapped, mapped_column
 from sqlalchemy.sql import func
 from database import Base
 
-# Используем новый синтаксис Mapped для типизации
+# Using new Mapped syntax for typing
 
 class Chat(Base):
     __tablename__ = "chats"
 
-    chat_id: Mapped[int] = mapped_column(BigInteger, primary_key=True) # Telegram ID могут быть большими
+    chat_id: Mapped[int] = mapped_column(BigInteger, primary_key=True) # Telegram IDs can be large
     type: Mapped[str] = mapped_column(String(50), nullable=True)
     title: Mapped[str | None] = mapped_column(String(255), nullable=True)
     description: Mapped[str | None] = mapped_column(Text, nullable=True)
@@ -21,7 +21,7 @@ class Chat(Base):
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     raw_data: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
-    # Отношения
+    # Relationships
     messages: Mapped[list["Message"]] = relationship(back_populates="chat", foreign_keys="[Message.chat_id]")
     summaries: Mapped[list["Summary"]] = relationship(back_populates="chat")
 
@@ -31,7 +31,7 @@ class Chat(Base):
 class User(Base):
     __tablename__ = "users"
 
-    user_id: Mapped[int] = mapped_column(BigInteger, primary_key=True) # Telegram ID могут быть большими
+    user_id: Mapped[int] = mapped_column(BigInteger, primary_key=True) # Telegram IDs can be large
     username: Mapped[str | None] = mapped_column(String(255), nullable=True)
     first_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
     last_name: Mapped[str | None] = mapped_column(String(255), nullable=True)
@@ -42,7 +42,7 @@ class User(Base):
     last_seen_ts: Mapped[datetime.datetime] = mapped_column(DateTime, default=func.now(), onupdate=func.now())
     raw_data: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
-    # Отношения
+    # Relationships
     messages: Mapped[list["Message"]] = relationship(back_populates="user", foreign_keys="[Message.user_id]")
     reactions: Mapped[list["Reaction"]] = relationship(back_populates="user")
 
@@ -75,14 +75,14 @@ class Message(Base):
     media_file_unique_id: Mapped[str | None] = mapped_column(String(255), nullable=True)
     has_media: Mapped[bool] = mapped_column(Boolean, default=False)
 
-    # Доп флаги для анализа (можно убрать, если анализ будет внешним)
+    # Additional flags for analysis (can be removed if analysis is external)
     # is_question: Mapped[bool] = mapped_column(Boolean, default=False)
     # is_command: Mapped[bool] = mapped_column(Boolean, default=False)
-    summarized: Mapped[bool] = mapped_column(Boolean, default=False, index=True) # Индекс для поиска необработанных
+    summarized: Mapped[bool] = mapped_column(Boolean, default=False, index=True) # Index for finding unprocessed messages
     
     raw_data: Mapped[dict | None] = mapped_column(JSON, nullable=True)
 
-    # Отношения
+    # Relationships
     chat: Mapped["Chat"] = relationship(back_populates="messages", foreign_keys=[chat_id])
     user: Mapped["User"] = relationship(back_populates="messages", foreign_keys=[user_id])
     forward_from_user: Mapped["User | None"] = relationship("User", foreign_keys=[forward_from_user_id])
@@ -90,7 +90,7 @@ class Message(Base):
     reply_to_message: Mapped[Optional["Message"]] = relationship(remote_side=[internal_id])
     reactions: Mapped[list["Reaction"]] = relationship(back_populates="message", cascade="all, delete-orphan")
 
-    # Уникальный индекс для message_id в рамках chat_id
+    # Unique index for message_id within chat_id
     __table_args__ = (UniqueConstraint('chat_id', 'message_id', name='uq_chat_message'),)
 
     def __repr__(self):
@@ -102,10 +102,10 @@ class Reaction(Base):
 
     internal_message_id: Mapped[int] = mapped_column(Integer, ForeignKey("messages.internal_id"), primary_key=True)
     user_id: Mapped[int] = mapped_column(BigInteger, ForeignKey("users.user_id"), primary_key=True)
-    emoji: Mapped[str] = mapped_column(String(50), primary_key=True) # Эмодзи или custom_emoji_id
+    emoji: Mapped[str] = mapped_column(String(50), primary_key=True) # Emoji or custom_emoji_id
     added_ts: Mapped[datetime.datetime] = mapped_column(DateTime, default=func.now())
 
-    # Отношения
+    # Relationships
     message: Mapped["Message"] = relationship(back_populates="reactions")
     user: Mapped["User"] = relationship(back_populates="reactions")
 
@@ -125,16 +125,16 @@ class Summary(Base):
     published_ts: Mapped[datetime.datetime | None] = mapped_column(DateTime, nullable=True)
     published: Mapped[bool] = mapped_column(Boolean, default=False)
 
-    # Отношения
+    # Relationships
     chat: Mapped["Chat"] = relationship(back_populates="summaries")
-    # Можно добавить связи с first/last message, если нужно
+    # Can add relationships with first/last message if needed
     # first_message: Mapped["Message" | None] = relationship(foreign_keys=[first_message_internal_id])
     # last_message: Mapped["Message" | None] = relationship(foreign_keys=[last_message_internal_id])
 
     def __repr__(self):
         return f"<Summary(id={self.id}, chat={self.chat_id}, messages={self.message_count})>"
 
-# Опционально: Таблица для сырых обновлений
+# Optional: Table for raw updates
 # class RawUpdate(Base):
 #     __tablename__ = "raw_updates"
 #     update_id: Mapped[int] = mapped_column(BigInteger, primary_key=True)

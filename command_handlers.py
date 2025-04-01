@@ -9,67 +9,67 @@ class CommandHandlers:
         self.db = db
 
     async def start(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Обработчик команды /start"""
+        """Handler for /start command"""
         await update.message.reply_text(
-            "Привет! Я бот для создания саммари чатов. "
-            "Добавьте меня в чат, и я буду создавать саммари каждые 24 часа."
+            "Hello! I'm a chat summary bot. "
+            "Add me to a chat, and I'll create summaries every 24 hours."
         )
 
     async def help(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Обработчик команды /help"""
+        """Handler for /help command"""
         help_text = (
-            "Я бот для создания саммари чатов.\n\n"
-            "Команды:\n"
-            "/start - Начать работу с ботом\n"
-            "/help - Показать это сообщение\n"
-            "/stats - Показать статистику чата\n"
-            "/summary - Создать саммари вручную\n"
-            "/settings - Настройки бота"
+            "I'm a chat summary bot.\n\n"
+            "Commands:\n"
+            "/start - Start working with the bot\n"
+            "/help - Show this message\n"
+            "/stats - Show chat statistics\n"
+            "/summary - Create a summary manually\n"
+            "/settings - Bot settings"
         )
         await update.message.reply_text(help_text)
 
     async def stats(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Обработчик команды /stats"""
+        """Handler for /stats command"""
         chat_id = update.effective_chat.id
         stats = self.db.get_chat_statistics(chat_id)
         
         if not stats:
-            await update.message.reply_text("Нет данных для отображения статистики.")
+            await update.message.reply_text("No data available to display statistics.")
             return
 
         stats_text = (
-            f"Статистика чата за последние {stats['period_days']} дней:\n\n"
-            f"Всего сообщений: {stats['total_messages']}\n"
-            f"Активных пользователей: {stats['active_users']}\n"
-            f"Медиа-сообщений: {stats['media_messages']}\n"
-            f"Вопросов: {stats['questions']}"
+            f"Chat statistics for the last {stats['period_days']} days:\n\n"
+            f"Total messages: {stats['total_messages']}\n"
+            f"Active users: {stats['active_users']}\n"
+            f"Media messages: {stats['media_messages']}\n"
+            f"Questions: {stats['questions']}"
         )
         await update.message.reply_text(stats_text)
 
     async def summary(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Обработчик команды /summary"""
+        """Handler for /summary command"""
         chat_id = update.effective_chat.id
         messages = self.db.get_messages_for_last_day(chat_id)
         
         if not messages:
-            await update.message.reply_text("Нет новых сообщений для создания саммари.")
+            await update.message.reply_text("No new messages to create a summary.")
             return
 
         if len(messages) < MIN_MESSAGES:
             await update.message.reply_text(
-                f"Недостаточно сообщений для создания саммари. "
-                f"Минимум: {MIN_MESSAGES}, текущее количество: {len(messages)}"
+                f"Not enough messages to create a summary. "
+                f"Minimum: {MIN_MESSAGES}, current count: {len(messages)}"
             )
             return
 
-        # TODO: Добавить логику создания саммари
-        await update.message.reply_text("Создание саммари...")
+        # TODO: Add summary creation logic
+        await update.message.reply_text("Creating summary...")
 
     async def settings(self, update: Update, context: ContextTypes.DEFAULT_TYPE):
-        """Обработчик команды /settings"""
+        """Handler for /settings command"""
         settings_text = (
-            "Настройки бота:\n\n"
-            f"Минимальное количество сообщений для саммари: {MIN_MESSAGES}\n"
-            "Интервал создания саммари: 24 часа"
+            "Bot settings:\n\n"
+            f"Minimum message count for summary: {MIN_MESSAGES}\n"
+            "Summary creation interval: 24 hours"
         )
         await update.message.reply_text(settings_text) 

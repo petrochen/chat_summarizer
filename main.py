@@ -11,24 +11,24 @@ logger = logging.getLogger(__name__)
 
 def main():
     if not BOT_TOKEN or BOT_TOKEN == "YOUR_BOT_TOKEN":
-        logger.error("Необходимо указать BOT_TOKEN в .env файле")
+        logger.error("BOT_TOKEN must be specified in the .env file")
         return
     if not CHANNEL_ID:
-        logger.error("Необходимо указать CHANNEL_ID в .env файле")
+        logger.error("CHANNEL_ID must be specified in the .env file")
         return
 
     try:
         create_tables()
     except Exception as e:
-        logger.error(f"Не удалось создать таблицы базы данных: {e}")
+        logger.error(f"Failed to create database tables: {e}")
         return
 
     try:
         bot = ChatSummarizerBot(BOT_TOKEN, CHANNEL_ID)
-        logger.info("Chat Summarizer Bot (DB version) запущен")
+        logger.info("Chat Summarizer Bot (DB version) started")
         bot.run()
     except Exception as e:
-        logger.exception(f"Критическая ошибка при запуске бота: {e}")
+        logger.exception(f"Critical error starting the bot: {e}")
 
 if __name__ == '__main__':
     main()

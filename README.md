@@ -1,16 +1,16 @@
 # Chat Summarizer Bot
 
-Telegram-бот для сбора сообщений из чатов и генерации краткого резюме обсуждений с помощью YandexGPT.
+A Telegram bot for collecting messages from chats and generating brief summaries of discussions using YandexGPT.
 
-## Функциональность
+## Functionality
 
-- Сохранение всех сообщений из Telegram чатов в базу данных SQLite
-- Отслеживание связей между сообщениями и топиками
-- Восстановление структуры топиков при добавлении бота в существующий чат
-- Генерация краткого резюме дискуссий с использованием YandexGPT (в разработке)
-- Поддержка различных типов медиа и реакций
+- Saving all messages from Telegram chats to a SQLite database
+- Tracking connections between messages and topics
+- Restoring topic structure when the bot is added to an existing chat
+- Generating brief summaries of discussions using YandexGPT (in development)
+- Support for various media types and reactions
 
-## Технологии
+## Technologies
 
 - Python 3.9+
 - python-telegram-bot v22.0
@@ -18,40 +18,40 @@ Telegram-бот для сбора сообщений из чатов и гене
 - YandexGPT API
 - SQLite
 
-## Установка и запуск
+## Installation and Launch
 
-1. Клонировать репозиторий:
+1. Clone the repository:
 ```bash
-git clone https://github.com/ваш_пользователь/chat_summarizer.git
+git clone https://github.com/your_username/chat_summarizer.git
 cd chat_summarizer
 ```
 
-2. Создать виртуальное окружение и установить зависимости:
+2. Create a virtual environment and install dependencies:
 ```bash
 python -m venv venv
 source venv/bin/activate  # Linux/macOS
-# или venv\Scripts\activate  # Windows
+# or venv\Scripts\activate  # Windows
 pip install -r requirements.txt
 ```
 
-3. Создать файл `.env` на основе `.env.example` и заполнить необходимые переменные:
+3. Create a `.env` file based on `.env.example` and fill in the required variables:
 ```bash
 cp .env.example .env
-# Заполните BOT_TOKEN и другие переменные окружения
+# Fill in BOT_TOKEN and other environment variables
 ```
 
-4. Запустить бота:
+4. Start the bot:
 ```bash
 python main.py
 ```
 
-## Структура проекта
+## Project Structure
 
-- `main.py` - входная точка программы
-- `telegram_bot.py` - основной класс бота и обработчики сообщений
-- `models.py` - модели данных SQLAlchemy
-- `database.py` - настройка соединения с базой данных
-- `crud.py` - функции для работы с базой данных
-- `yandex_gpt_summarizer.py` - генерация резюме с помощью YandexGPT
-- `config.py` - загрузка конфигурации из `.env`
-- `command_handlers.py` - обработчики команд бота 
+- `main.py` - entry point of the program
+- `telegram_bot.py` - main bot class and message handlers
+- `models.py` - SQLAlchemy data models
+- `database.py` - database connection setup
+- `crud.py` - functions for working with the database
+- `yandex_gpt_summarizer.py` - summary generation using YandexGPT
+- `config.py` - loading configuration from `.env`
+- `command_handlers.py` - bot command handlers 
